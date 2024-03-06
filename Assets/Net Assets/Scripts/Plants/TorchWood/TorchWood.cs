@@ -34,7 +34,7 @@ public class TorchWood : PlantBase2
             //Ïú»ÙÍã¶¹
             Destroy(collision.gameObject);
         }
-        else if(collision.tag == "Zombie" && collision.GetComponent<Zombie>().pos_row == row)
+        else if(collision.tag == "Zombie" && collision.GetComponent<ZombieBase>().pos_row == row)
         {
             zombieNum++;
             if(zombieNum == 1)
@@ -46,7 +46,7 @@ public class TorchWood : PlantBase2
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Zombie" && collision.GetComponent<Zombie>().pos_row == row)
+        if (collision.tag == "Zombie" && collision.GetComponent<ZombieBase>().pos_row == row)
         {
             zombieNum--;
             if (zombieNum <= 0)
@@ -62,8 +62,8 @@ public class TorchWood : PlantBase2
         {
             foreach(Collider2D collider in zombies)
             {
-                if ( collider.GetComponent<Zombie>().pos_row == row)
-                    collider.GetComponent<Zombie>().beBurned();
+                if ( collider.GetComponent<ZombieBase>().pos_row == row)
+                    collider.GetComponent<ZombieBase>().beBurned();
             }
         }
         else

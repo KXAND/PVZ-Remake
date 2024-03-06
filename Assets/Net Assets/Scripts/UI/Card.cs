@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour
+public class NetCard : MonoBehaviour
 {
     //冷却贴图
     public GameObject upperImageObj;
@@ -93,6 +93,6 @@ public class Card : MonoBehaviour
         gameObject.GetComponent<AudioSource>().Play();
 
         //转给种植管理
-        planting.clickPlant(plantName, gameObject.GetComponent<Card>());
+        planting.clickPlant(plantName, gameObject.GetComponent<NetCard>());
     }
 }

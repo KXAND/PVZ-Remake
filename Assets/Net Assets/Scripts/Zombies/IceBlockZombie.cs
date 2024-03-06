@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
-public class IceBlockZombie : Zombie
+public class IceBlockZombie : ZombieBase
 {
     IceBlockZombieState iceState = IceBlockZombieState.IceCompete;
 

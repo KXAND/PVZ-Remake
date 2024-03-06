@@ -25,9 +25,9 @@ public class SquashDetectRegion : MonoBehaviour
             }
             else if (squash.collider_attack.enabled == true)
             {
-                if (collision.GetComponent<Zombie>().pos_row == squash.row)
+                if (collision.GetComponent<ZombieBase>().pos_row == squash.row)
                 {
-                    collision.GetComponent<Zombie>().beSquashed();
+                    collision.GetComponent<ZombieBase>().beSquashed();
                 }
             }
         }

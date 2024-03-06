@@ -6,7 +6,7 @@ public class LeafKnife : StraightBullet
 {
     private MiaoMiao myCreater;
 
-    protected override void attack(Zombie target)
+    protected override void attack(ZombieBase target)
     {
         //≤•∑≈“Ù–ß
         AudioSource.PlayClipAtPoint(

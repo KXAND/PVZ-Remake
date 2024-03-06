@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ef83de33c3119b43b94a86740f979bb, type: 3}
+  m_Name: Zombie
+  m_EditorClassIdentifier: 
+  chompSounds:
+  - {fileID: 8300000, guid: e8966a022dbf3cd40ba939e2fce7cf6c, type: 3}
+  - {fileID: 8300000, guid: 0581a2618110c574fb9213a21fe906eb, type: 3}
+  - {fileID: 8300000, guid: e440262501295c54ab677f84df69caa6, type: 3}
+  groanSounds:
+  - {fileID: 8300000, guid: 2dc65f0db48007b4292f8c5f2d517853, type: 3}
+  - {fileID: 8300000, guid: f9014c46cf16ec445bc63e9770b0a60d, type: 3}
+  - {fileID: 8300000, guid: 37ac76d6231751040985d0a9ae3fe629, type: 3}
+  - {fileID: 8300000, guid: 66104b56a46a5424e9c47e5cc4b01a78, type: 3}
+  - {fileID: 8300000, guid: b3f618d4478581840b0d699b3d368672, type: 3}
+  - {fileID: 8300000, guid: 44ba922af86e64f4889f0d8675e18d08, type: 3}
+  limbsPopSound: {fileID: 8300000, guid: 240cddd4003c78b469593459d82bffbe, type: 3}

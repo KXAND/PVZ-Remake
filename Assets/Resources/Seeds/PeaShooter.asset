@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565e16d10db9b1140bf110a1aa7f9c02, type: 3}
+  m_Name: PeaShooter
+  m_EditorClassIdentifier: 
+  seedSprite: {fileID: 21300000, guid: d1cbb242f5a56b2499439923cd5fd411, type: 3}
+  costSun: 100
+  CardCDTime: 10
+  seedInstance: {fileID: 6807926694710385383, guid: 9792ad66de6d20446a803256b6629cfd, type: 3}
+  isReadyAtStart: 1

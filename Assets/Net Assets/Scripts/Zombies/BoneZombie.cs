@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoneZombie : Zombie
+public class BoneZombie : ZombieBase
 {
     int lifeNumber = 3;   //Ê£Óà¼¸ÌõÃü
 

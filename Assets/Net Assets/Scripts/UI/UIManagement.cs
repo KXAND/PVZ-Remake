@@ -21,7 +21,7 @@ public class UIManagement : MonoBehaviour
 
         //加载卡槽群组，并设置相关UI的大小位置
         List<string> plantCards = GameManagement.levelData.plantCards;
-        List<Card> cards = new List<Card>();
+        List<NetCard> cards = new List<NetCard>();
         foreach (string plant in plantCards)
         {
             cards.Add((
@@ -29,7 +29,7 @@ public class UIManagement : MonoBehaviour
                         Resources.Load<Object>("Prefabs/UI/Card/" + plant + "Card"),
                         cardGroup.transform
                     ) as GameObject
-                ).GetComponent<Card>());
+                ).GetComponent<NetCard>());
         }
         GameObject.Find("Sun Text").GetComponent<SunNumber>().setCardGroup(cards);
         float cardGroupWidth = plantCards.Count * 43 - 1;

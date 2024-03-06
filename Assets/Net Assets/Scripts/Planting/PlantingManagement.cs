@@ -10,7 +10,7 @@ public class PlantingManagement : MonoBehaviour
     public GameObject toBePlanted_Object;
     ToBePlanted toBePlanted_Script;
 
-    Card nowCard;  //当前所选植物的卡槽的Card
+    NetCard nowCard;  //当前所选植物的卡槽的Card
 
     #endregion
 
@@ -34,7 +34,7 @@ public class PlantingManagement : MonoBehaviour
     #region 公有自定义函数
 
     //点击按钮选择植物
-    public void clickPlant(string plant, Card card)
+    public void clickPlant(string plant, NetCard card)
     {
         nowCard = card;
         toBePlanted_Script.showPlantPreview(plant);

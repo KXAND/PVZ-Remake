@@ -22,10 +22,10 @@ public class StraightBullet : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Zombie" && boomState == false && row == collision.GetComponent<Zombie>().pos_row)
+        if (collision.tag == "Zombie" && boomState == false && row == collision.GetComponent<ZombieBase>().pos_row)
         {
             boom();
-            attack(collision.GetComponent<Zombie>());
+            attack(collision.GetComponent<ZombieBase>());
         }
         else if (collision.tag == "BulletDisappearLine")
         {
@@ -42,7 +42,7 @@ public class StraightBullet : MonoBehaviour
         Invoke(nameof(Disappear), 0.1f);
     }
 
-    protected virtual void attack(Zombie target)
+    protected virtual void attack(ZombieBase target)
     {
         //≤•∑≈“Ù–ß
         target.playAudioOfBeingAttacked();

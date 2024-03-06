@@ -19,8 +19,6 @@ namespace Plant
             highlightHead = transform.GetChild(1).GetComponent<SpriteRenderer>(); // 需要保证 index 不变
         }
 
-
-
         IEnumerator ThrowSun()
         {
             float duration = 1f;
@@ -54,9 +52,7 @@ namespace Plant
             highlightHead.color = finalColor;
             
             var newSun = Instantiate(bullet, transform.position, Quaternion.identity);// sunflower的bullet就是Sun
-            
-            StartCoroutine(newSun.GetComponent<Sun>().FlowerSunThrow());
+            newSun.GetComponent<Sun>().StartCoroutine(newSun.GetComponent<Sun>().FlowerSunThrow());
         }
     }
-
 }

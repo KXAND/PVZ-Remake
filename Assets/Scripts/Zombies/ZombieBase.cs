@@ -1,55 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ZombieBase : MonoBehaviour
+namespace Zombie
 {
-    public float speed;
-    public Rigidbody2D rb;
-    public float attack = 10f;
-
-    HealthComp healthComp;
-
-    IState state;
-    public void Init()
+    enum ZombieState
     {
-
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        TransitionState(new ZombieState_Walk(this));
-        healthComp = gameObject.AddComponent<HealthComp>();
-        healthComp.Init(100);
+        Idle,
+        Eat,
+        Walk
     }
 
-    private void Update()
+    public class ZombieBase : MonoBehaviour
     {
-        state?.OnState();
-    }
+        public float speed;
+        public Rigidbody2D rb;
+        public AudioSource audioSource;
+        public Animator animator;
+        public float attack = 10f;
 
-    void TransitionState(IState newState)
-    {
-        state?.OnLeave();
-        state = newState;
-        state.OnEnter();
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Plant"))
+        HealthComp healthComp;
+
+        Dictionary<ZombieState, IState> states = new();
+        [SerializeField] ZombieState state;
+
+        [SerializeField] SoundPack soundPack;
+
+        // Start is called before the first frame update
+        void Start()
         {
+            audioSource = GetComponent<AudioSource>();
+            animator = GetComponent<Animator>();
+            rb = GetComponent<Rigidbody2D>();
+            healthComp = gameObject.AddComponent<HealthComp>();
 
-            TransitionState(new ZombieState_Eat(this, collision.GetComponent<HealthComp>()));
+            states.Add(ZombieState.Idle, new ZombieState_Idle(this));
+            states.Add(ZombieState.Walk, new ZombieState_Walk(this, audioSource, soundPack.groanSounds));
+            states.Add(ZombieState.Eat, new ZombieState_Eat(this));
+
+            TransitionState(ZombieState.Walk);
+            healthComp.Init(100);
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Plant"))
+        private void Update()
         {
-            TransitionState(new ZombieState_Walk(this));
+            states[state]?.OnState();
+        }
+
+        void TransitionState(ZombieState newState)
+        {
+            states[state]?.OnLeave();
+            state = newState;
+            states[newState].OnEnter();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Plant"))
+            {
+                TransitionState(ZombieState.Eat);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Plant"))
+            {
+                TransitionState(ZombieState.Walk);
+            }
         }
     }
 }

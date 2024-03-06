@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
-public class ChineseZombie : Zombie
+public class ChineseZombie : ZombieBase
 {
     public bool isCaptain = false;   //是否为队长
     public ChineseZombie prior;   //队中前一个僵尸

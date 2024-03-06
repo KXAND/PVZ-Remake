@@ -10,7 +10,7 @@ public class SunNumber : MonoBehaviour
     int nowSun;
 
     //卡槽群组
-    List<Card> cardGroup;
+    List<NetCard> cardGroup;
 
 
     // Start is called before the first frame update
@@ -25,7 +25,7 @@ public class SunNumber : MonoBehaviour
         updateCard();
     }
 
-    public void setCardGroup(List<Card> group)
+    public void setCardGroup(List<NetCard> group)
     {
         cardGroup = group;
     }
@@ -51,7 +51,7 @@ public class SunNumber : MonoBehaviour
 
     private void updateCard()
     {
-        foreach(Card i in cardGroup)
+        foreach(NetCard i in cardGroup)
         {
             i.updateSunEnough(nowSun >= i.sunNeeded);
         }

@@ -75,6 +75,7 @@
     <Compile Include="Assets\Net Assets\Scripts\GameManagement\Level1Controller.cs" />
     <Compile Include="Assets\Net Assets\Scripts\GameManagement\Level0Controller.cs" />
     <Compile Include="Assets\Scripts\Sun.cs" />
+    <Compile Include="Assets\Scripts\Zombies\ZombieState_Idle.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Zombies\SnowZombie.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\EffectController.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\PeaShooterSingle.cs" />
@@ -96,7 +97,6 @@
     <Compile Include="Assets\Net Assets\Scripts\UI\Dialog\DialogLevel4.cs" />
     <Compile Include="Assets\Net Assets\Scripts\GameManagement\LevelData.cs" />
     <Compile Include="Assets\Scripts\Zombies\ZombieState_Eat.cs" />
-    <Compile Include="Assets\Net Assets\Scripts\Zombies\Zombie.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Zombies\IceShield.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Planting\PlantGrid.cs" />
     <Compile Include="Assets\Net Assets\Scripts\PlantBullets\FirePea.cs" />
@@ -110,7 +110,9 @@
     <Compile Include="Assets\Net Assets\Scripts\Planting\ToBePlanted.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\WallNut.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Net Assets\Scripts\Zombies\Zombie2.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\SnowKing\SnowKing.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObjects\Seed.cs" />
     <Compile Include="Assets\Net Assets\Scripts\PlantBullets\Base\StraightBulletAnimationSwitch.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Others\Winter.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\TorchWood\TorchWood.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Assets\Scripts\IState.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\Dialog\DialogLevel1.cs" />
     <Compile Include="Assets\Scripts\HealthComp.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObjects\SoundPack.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Sun\SunManagement.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\Squash\SquashDetectRegion.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\Dialog\DialogLevel3.cs" />

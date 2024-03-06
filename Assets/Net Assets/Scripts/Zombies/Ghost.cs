@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ghost : Zombie
+public class Ghost : ZombieBase
 {
 
     protected override void Start()

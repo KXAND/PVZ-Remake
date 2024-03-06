@@ -38,10 +38,10 @@ public class ThrowBullet : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Zombie" && boom == false && row == collision.GetComponent<Zombie>().pos_row)
+        if (collision.tag == "Zombie" && boom == false && row == collision.GetComponent<ZombieBase>().pos_row)
         {
             blast();
-            attack(collision.GetComponent<Zombie>());
+            attack(collision.GetComponent<ZombieBase>());
         }
         else if (collision.tag == "BulletDisappearLine")
         {
@@ -59,7 +59,7 @@ public class ThrowBullet : MonoBehaviour
         Invoke("disappear", 0.1f);
     }
 
-    protected virtual void attack(Zombie zombie)
+    protected virtual void attack(ZombieBase zombie)
     {
         zombie.playAudioOfBeingAttacked();
         zombie.beAttacked(hurt);
@@ -71,7 +71,7 @@ public class ThrowBullet : MonoBehaviour
     }
 
 
-    public void initialize(Zombie targetZombie, PlantBase2 myPlant, int row)
+    public void initialize(ZombieBase targetZombie, PlantBase2 myPlant, int row)
     {
         this.row = row;
         this.myPlant = myPlant;
@@ -86,7 +86,7 @@ public class ThrowBullet : MonoBehaviour
         moving = true;
     }
 
-    public void initialize(Zombie targetZombie, PlantBase2 myPlant, int row, int hurt)
+    public void initialize(ZombieBase targetZombie, PlantBase2 myPlant, int row, int hurt)
     {
         this.row = row;
         this.myPlant = myPlant;

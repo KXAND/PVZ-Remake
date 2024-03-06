@@ -20,7 +20,7 @@ public class DetectZombieRegion : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Zombie" 
-            && collision.GetComponent<Zombie>().pos_row == myPlant.GetComponent<PlantBase2>().row)
+            && collision.GetComponent<ZombieBase>().pos_row == myPlant.GetComponent<PlantBase2>().row)
         {
             if(zombieNum == 0)
             {
@@ -33,7 +33,7 @@ public class DetectZombieRegion : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == "Zombie"
-            && collision.GetComponent<Zombie>().pos_row == myPlant.GetComponent<PlantBase2>().row)
+            && collision.GetComponent<ZombieBase>().pos_row == myPlant.GetComponent<PlantBase2>().row)
         {
             zombieNum--;
             if (zombieNum == 0)

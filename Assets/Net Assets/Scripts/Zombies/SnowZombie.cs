@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
-public class SnowZombie : Zombie
+public class SnowZombie : ZombieBase
 {
     public GameObject iceShield;
 

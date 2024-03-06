@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
-public class NormalZombie : Zombie
+public class NormalZombie : ZombieBase
 {
     bool haveArm = true;   //是否有胳膊
 

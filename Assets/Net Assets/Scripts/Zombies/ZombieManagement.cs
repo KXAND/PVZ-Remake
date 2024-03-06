@@ -104,7 +104,7 @@ public class ZombieManagement : MonoBehaviour
                 new Vector3(initPos_x, GameManagement.levelData.zombieInitPosY[randY], 0),
                 Quaternion.Euler(0, 0, 0),
                 transform);
-            newZombie.GetComponent<Zombie>().setPosRow(randY);
+            newZombie.GetComponent<ZombieBase>().setPosRow(randY);
             addZombieNumAll();
         }
         changeTimeNode();
@@ -143,8 +143,8 @@ public class ZombieManagement : MonoBehaviour
             new Vector3(initPos_x, GameManagement.levelData.zombieInitPosY[posRow], 0),
             Quaternion.Euler(0, 0, 0),
             transform);
-        newZombie.GetComponent<Zombie>().setPosRow(posRow);
-        newZombie.GetComponent<Zombie>().cancelSleep();
+        newZombie.GetComponent<ZombieBase>().setPosRow(posRow);
+        newZombie.GetComponent<ZombieBase>().cancelSleep();
         addZombieNumAll();
     }
 
@@ -225,7 +225,7 @@ public class ZombieManagement : MonoBehaviour
                     ),
                     Quaternion.Euler(0, 0, 0),
                     transform);
-                newZombie.GetComponent<Zombie>().setPosRow(randY);
+                newZombie.GetComponent<ZombieBase>().setPosRow(randY);
                 addZombieNumAll();
                 //设置僵尸链表信息
                 if(last == null)
@@ -258,7 +258,7 @@ public class ZombieManagement : MonoBehaviour
             new Vector3(initPos_x, GameManagement.levelData.zombieInitPosY[randY], 0),
             Quaternion.Euler(0, 0, 0),
             transform);
-        newZombie.GetComponent<Zombie>().setPosRow(randY);
+        newZombie.GetComponent<ZombieBase>().setPosRow(randY);
         //随机时间后再创造
         if(nowNode_index <= 8)
             Invoke("createGhost", Random.Range(15.0f, 20.0f));

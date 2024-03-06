@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombie : MonoBehaviour
+public class ZombieBase : MonoBehaviour
 {
     public float speed;   //移动速度
     public float eatOffset;   //吃植物位置偏移，就是植物在自己后边多远时就不吃了
@@ -64,8 +64,8 @@ public class Zombie : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Plant" 
-            && collision.GetComponent<PlantBase2>().row == pos_row 
+        if (collision.tag == "Plant"
+            && collision.GetComponent<PlantBase2>().row == pos_row
             && collision.transform.position.x < transform.position.x + eatOffset
             && myAnimator.GetBool("Attack") == false)
         {
@@ -151,7 +151,7 @@ public class Zombie : MonoBehaviour
     public virtual void beSquashed()
     {
         bloodVolume -= 1800;
-        if(bloodVolume <= 0)
+        if (bloodVolume <= 0)
         {
             //全场僵尸数减一
             GameObject.Find("Zombie Management").GetComponent<ZombieManagement>().minusZombieNumAll();
@@ -162,7 +162,7 @@ public class Zombie : MonoBehaviour
 
     public void beParasiticed(PlantBase2 parasiticPlant)
     {
-        if(state != ZombieState.Parasiticed)
+        if (state != ZombieState.Parasiticed)
         {
             SpriteRenderer[] spriteRenderers = gameObject.GetComponentsInChildren<SpriteRenderer>(true);
             foreach (SpriteRenderer spriteRenderer in spriteRenderers)
@@ -184,7 +184,7 @@ public class Zombie : MonoBehaviour
 
     public void cancelSleep()
     {
-        if(gameObject.activeSelf == false)
+        if (gameObject.activeSelf == false)
         {
             gameObject.SetActive(true);
         }
