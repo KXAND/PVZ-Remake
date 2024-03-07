@@ -1,3 +1,4 @@
+using Plant;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,6 @@ namespace Zombie
         public Animator animator;
         public float attack = 10f;
 
-
         HealthComp healthComp;
 
         Dictionary<ZombieState, IState> states = new();
@@ -36,7 +36,7 @@ namespace Zombie
 
             states.Add(ZombieState.Idle, new ZombieState_Idle(this));
             states.Add(ZombieState.Walk, new ZombieState_Walk(this, audioSource, soundPack.groanSounds));
-            states.Add(ZombieState.Eat, new ZombieState_Eat(this));
+            states.Add(ZombieState.Eat, new ZombieState_Eat(this, audioSource, soundPack.chompSounds));
 
             TransitionState(ZombieState.Walk);
             healthComp.Init(100);
@@ -59,6 +59,8 @@ namespace Zombie
             if (collision.CompareTag("Plant"))
             {
                 TransitionState(ZombieState.Eat);
+                (states[state] as ZombieState_Eat).
+                    SetPlant(collision.GetComponent<PlantBase>());
             }
         }
 
@@ -69,5 +71,11 @@ namespace Zombie
                 TransitionState(ZombieState.Walk);
             }
         }
+
+        public void TakeDamage(float damage)
+        {
+
+        }
+
     }
 }

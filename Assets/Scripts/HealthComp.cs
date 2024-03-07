@@ -18,5 +18,13 @@ public class HealthComp : MonoBehaviour
         { Destroy(this.gameObject); }
     }
 
-    
+    /*
+     * 植物
+     * 1. takedamage：发光、声音
+     * 2. 死后播放oau！
+     * 僵尸
+     * 1. takedamage：声音
+     * 2. 根据状态不同切换到不同的状态
+     */
+
 }

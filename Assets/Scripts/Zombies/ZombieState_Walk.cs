@@ -8,6 +8,7 @@ namespace Zombie
         ZombieBase zombie;
         AudioSource audioSource;
         AudioClip[] groans;
+        Coroutine coroutine;
         public ZombieState_Walk(ZombieBase zombie, AudioSource audioSource, AudioClip[] groans)
         {
             this.zombie = zombie;
@@ -17,14 +18,15 @@ namespace Zombie
 
         public void OnEnter()
         {
-            zombie.rb.velocity = new Vector2(-1 * zombie.speed, 0);
-            zombie.StartCoroutine(PlayGroans());
             zombie.animator.SetBool("isWalking",true);
+            zombie.rb.velocity = new Vector2(-1 * zombie.speed, 0);
+            coroutine= zombie.StartCoroutine(PlayGroans());
         }
 
         public void OnLeave()
         {
             zombie.animator.SetBool("isWalking", false);
+            zombie.StopCoroutine(coroutine);
             return;
         }
 

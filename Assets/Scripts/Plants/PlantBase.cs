@@ -30,8 +30,11 @@ namespace Plant
             states.Add(PlantState.Ilde, new PlantState_Idle(this, 20));
             states.Add(PlantState.Attack, new PlantState_Attack(this, animator));
             state = PlantState.Ilde;
+        }
 
-
+        public void TakeDamage(float damage)
+        {
+            healthComp.TakeDamage(damage);
         }
 
         public virtual void Attack()
@@ -45,6 +48,4 @@ namespace Plant
             states[state].OnEnter();
         }
     }
-
-
 }
