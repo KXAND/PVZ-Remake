@@ -7,8 +7,7 @@ public class ProjectsPea : MonoBehaviour
 {
     readonly float speed = 0.1f;
 
-    [SerializeField] float damage = 10f;
-    [SerializeField] AudioSource splatSound = null;
+    [SerializeField] float damage = 10f;    
     [SerializeField] SpriteRenderer peaSplat = null;
     [SerializeField] Sprite[] splatSprites;
 
@@ -21,7 +20,7 @@ public class ProjectsPea : MonoBehaviour
     {
         if (collision.CompareTag("Zombie"))
         {
-            HealthComp zombie = collision.GetComponent<HealthComp>();
+            Zombie.ZombieBase zombie = collision.GetComponent<Zombie.ZombieBase>();
             if (zombie) zombie.TakeDamage(damage);
 
             Instantiate(peaSplat, transform.position, Quaternion.identity);
@@ -29,7 +28,6 @@ public class ProjectsPea : MonoBehaviour
             peaSplat.sprite = splatSprites[index];
             ParticleSystem particleSystem = peaSplat.GetComponentInChildren<ParticleSystem>();
             particleSystem.Play();
-            if (splatSound) splatSound.Play();
             Debug.Log(particleSystem.gameObject.name);
             Destroy(gameObject);
 

@@ -24,3 +24,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b3f618d4478581840b0d699b3d368672, type: 3}
   - {fileID: 8300000, guid: 44ba922af86e64f4889f0d8675e18d08, type: 3}
   limbsPopSound: {fileID: 8300000, guid: 240cddd4003c78b469593459d82bffbe, type: 3}
+  hitSounds:
+  - {fileID: 8300000, guid: 0f91eae32f68519498155e67fbb71112, type: 3}
+  - {fileID: 8300000, guid: 0b8cd1e1a0e4afa4fa9b3506a04fb985, type: 3}
+  - {fileID: 8300000, guid: 7fe7b6d550a817340bb06e7f3c1b3356, type: 3}

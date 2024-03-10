@@ -124,6 +124,7 @@
     <Compile Include="Assets\Net Assets\Scripts\UI\MotionPanel.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\DecreasingSlider.cs" />
     <Compile Include="Assets\Net Assets\Scripts\PlantBullets\Base\StraightBullet.cs" />
+    <Compile Include="Assets\Scripts\Zombies\ZombieState_Die.cs" />
     <Compile Include="Assets\Net Assets\Scripts\PlantBullets\Base\ThrowBullet.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Zombies\ZombieManagement.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\SpeechBubble.cs" />

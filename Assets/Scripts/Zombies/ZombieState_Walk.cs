@@ -18,14 +18,15 @@ namespace Zombie
 
         public void OnEnter()
         {
-            zombie.animator.SetBool("isWalking",true);
+            zombie.animator.SetBool("isWalking", true);
             zombie.rb.velocity = new Vector2(-1 * zombie.speed, 0);
-            coroutine= zombie.StartCoroutine(PlayGroans());
+            coroutine = zombie.StartCoroutine(PlayGroans());
         }
 
         public void OnLeave()
         {
             zombie.animator.SetBool("isWalking", false);
+            zombie.rb.velocity = Vector2.zero;
             zombie.StopCoroutine(coroutine);
             return;
         }

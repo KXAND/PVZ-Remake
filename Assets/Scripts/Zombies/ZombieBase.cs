@@ -8,7 +8,8 @@ namespace Zombie
     {
         Idle,
         Eat,
-        Walk
+        Walk,
+        Die
     }
 
     public class ZombieBase : MonoBehaviour
@@ -18,12 +19,11 @@ namespace Zombie
         public AudioSource audioSource;
         public Animator animator;
         public float attack = 10f;
-
-        HealthComp healthComp;
+        public bool isDead = false;
 
         Dictionary<ZombieState, IState> states = new();
-        [SerializeField] ZombieState state;
-
+        [SerializeField] ZombieState currentState;
+        [SerializeField] float health;
         [SerializeField] SoundPack soundPack;
 
         // Start is called before the first frame update
@@ -32,25 +32,27 @@ namespace Zombie
             audioSource = GetComponent<AudioSource>();
             animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
-            healthComp = gameObject.AddComponent<HealthComp>();
 
             states.Add(ZombieState.Idle, new ZombieState_Idle(this));
             states.Add(ZombieState.Walk, new ZombieState_Walk(this, audioSource, soundPack.groanSounds));
-            states.Add(ZombieState.Eat, new ZombieState_Eat(this, audioSource, soundPack.chompSounds));
+            states.Add(ZombieState.Eat, new ZombieState_Eat(this, soundPack.chompSounds));
+            states.Add(ZombieState.Die, new ZombieState_Die(this, transform.GetChild(0).gameObject, soundPack.limbsPopSound));
 
             TransitionState(ZombieState.Walk);
-            healthComp.Init(100);
+
+            health = 100;
         }
 
         private void Update()
         {
-            states[state]?.OnState();
+            states[currentState]?.OnState();
+
         }
 
         void TransitionState(ZombieState newState)
         {
-            states[state]?.OnLeave();
-            state = newState;
+            states[currentState]?.OnLeave();
+            currentState = newState;
             states[newState].OnEnter();
         }
 
@@ -59,7 +61,7 @@ namespace Zombie
             if (collision.CompareTag("Plant"))
             {
                 TransitionState(ZombieState.Eat);
-                (states[state] as ZombieState_Eat).
+                (states[currentState] as ZombieState_Eat).
                     SetPlant(collision.GetComponent<PlantBase>());
             }
         }
@@ -72,10 +74,35 @@ namespace Zombie
             }
         }
 
-        public void TakeDamage(float damage)
+        // 如果不是特殊子弹例如玉米粒或火豌豆，则是僵尸已知的splat音效
+        public void TakeDamage(float damage, bool isBoom = false, AudioClip hitSound = null)
         {
+            SoundPlay(hitSound?
+                hitSound :
+                soundPack.hitSounds[Random.Range(0, soundPack.hitSounds.Length)]);
+            if (health <= 0) return;
+            health -= damage;
 
+            if (health <= 0)
+            {
+                if (!isBoom) TransitionState(ZombieState.Die);
+            }
         }
 
+        public void AnimationEventWalkingAfterDead()
+        {
+            rb.velocity = new Vector2(-1 * speed, 0);
+        }
+
+        public void AnimationEventStopWalkingAfterDead()
+        {
+            rb.velocity = Vector2.zero;
+        }
+
+        public void SoundPlay(AudioClip clip)
+        {
+            audioSource.clip = clip;
+            audioSource.Play();
+        }
     }
 }

@@ -10,6 +10,7 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IP
 {
     float CDTime = 10;
     bool isReadyAtStart = false;
+    Coroutine coldDown;
 
     [SerializeField] TextMeshProUGUI cost;
     [SerializeField] TextMeshProUGUI plantName;
@@ -32,7 +33,7 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IP
             plantImage.sprite = seed.seedSprite;
         }
     }
-
+    public bool IsReady => coldDown == null;
 
     public void Init(string plants)
     {
@@ -47,7 +48,7 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IP
             nameBackground.SetActive(false);
             cardMask1.gameObject.SetActive(true);
             cardMask2.gameObject.SetActive(true);
-            GameManager.Instance.SelectingPlant(plantImage.sprite, this);
+            GameManager.Instance.ToSelectingPlantState(plantImage.sprite, this);
         }
     }
 
@@ -66,6 +67,11 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IP
     public void OnPointerExit(PointerEventData eventData)
     {
         nameBackground.SetActive(false);
+    }
+
+    public void OnPlanted()
+    {
+        coldDown = StartCoroutine(ColdDown());
     }
 
     public IEnumerator ColdDown()

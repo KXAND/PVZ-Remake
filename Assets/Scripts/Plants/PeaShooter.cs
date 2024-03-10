@@ -7,11 +7,9 @@ namespace Plant
 {
     public class PeaShooter : PlantBase
     {
-
         private void Update()
         {
             states[state].OnState();
         }
-
     }
 }
