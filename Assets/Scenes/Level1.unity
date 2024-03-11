@@ -1507,7 +1507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2174,12 +2174,16 @@ MonoBehaviour:
   card: {fileID: 7467671338426868003, guid: 7fd26ab5fc3f47c46ae64622552bf175, type: 3}
   seedBank: {fileID: 730682036}
   sun: {fileID: 6766414576316410383, guid: 6d3116c37d887694a84058da6d22dc6b, type: 3}
-  currentState: 0
   sunNumText: {fileID: 1292197534}
   plantGridParent: {fileID: 1645552248}
   plantSelecting: {fileID: 2083666368}
   plantPreview: {fileID: 1060527390}
+  allowedClickCard: 1
   SunIcon: {fileID: 581023771}
+  selectingCard: {fileID: 0}
+  OnSunChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1619010892
 GameObject:
   m_ObjectHideFlags: 0
@@ -2265,7 +2269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2800,10 +2804,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
+  m_BlockingObjects: 3
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 499
 --- !u!114 &2032446561
 MonoBehaviour:
   m_ObjectHideFlags: 0

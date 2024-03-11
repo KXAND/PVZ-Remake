@@ -1,39 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.Events;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GMState
-    {
-        Ilde,
-        SelectingPlant
-    }
-
+    [Header("Cards")]
     [SerializeField] Card card;
-    List<Card> cards = new();
     [SerializeField] Transform seedBank;
-    public Sun sun;
-    public GMState currentState = GMState.Ilde;
-    public TextMeshProUGUI sunNumText;
+    readonly List<Card> cards = new();
     public Transform plantGridParent;
+    public bool allowedClickCard = true;
+    public Card selectingCard;
 
+    [Header("Planting")]
+    GraphicRaycaster raycaster;
+    EventSystem eventSystem;
     public GameObject plantSelecting;
     public GameObject plantPreview;
-
     public Vector2[][] plantGrids;
-    [SerializeField] RectTransform SunIcon;
-
-    public Card selectingCard;
-    private int sunNum = 50;
-
-    public Vector3 SunIconPosition => Camera.main.ScreenToWorldPoint(SunIcon.position);
-
     Vector3 PlantPreviewWorldPos => Camera.main.ScreenToWorldPoint(plantPreview.transform.position);
     Vector3 PlantSelectingWorldPos => Camera.main.ScreenToWorldPoint(plantSelecting.transform.position);
-    public static GameManager Instance { get; private set; }
+
+    [Header("Sun")]
+    [SerializeField] RectTransform SunIcon;
+    private int sunNum = 0;
+    public Sun sun;
+    public TextMeshProUGUI sunNumText;
+    public UnityEvent<int> OnSunChanged;
+    public Vector3 SunIconPosition => Camera.main.ScreenToWorldPoint(SunIcon.position);
     public int SunNum
     {
         get => sunNum; set
@@ -48,9 +46,12 @@ public class GameManager : MonoBehaviour
                 if (newSunNum > 9999) { newSunNum = 9999; }
                 sunNum = newSunNum;
                 sunNumText.text = sunNum.ToString();
+                OnSunChanged.Invoke(sunNum);
             }
         }
     }
+
+    public static GameManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -74,13 +75,16 @@ public class GameManager : MonoBehaviour
                 plantGrids[i][j] = row.GetChild(j).position;
             }
         }
+
+        eventSystem = FindObjectOfType<EventSystem>();
+        raycaster = FindObjectOfType<Canvas>().GetComponent<GraphicRaycaster>();
     }
 
     void Start()
     {
         StartCoroutine(ThrowSun());
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 2; i++)
         {
             Card item = Instantiate(card, seedBank);
             Debug.Log(item.name);
@@ -91,65 +95,88 @@ public class GameManager : MonoBehaviour
         cards[0].Seed = Resources.Load<Seed>("Seeds/SunFlower");
         cards[1].Seed = Resources.Load<Seed>("Seeds/PeaShooter");
 
+        SunNum = 50;
     }
-
-    // preview correct :plant
-    // preview correct not enough: plant cancel
-    // preview wrong: cancel
-    // right click:cancel
 
     // Update is called once per frame
     void Update()
     {
-        //if (currentState == GMState.SelectingPlant)
-        //{
-        //    plantSelecting.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane);
-        //    plantPreview.transform.position = Camera.main.WorldToScreenPoint(GetPlantPreviewWorldPosition());
-        //    if (Input.GetMouseButtonDown(0))
-        //    {
-        //        //var a = new(10, 10, 0);
-        //        Debug.Log((PlantPreviewWorldPos == new Vector3(10, 10, 0)) + " " + PlantPreviewWorldPos + " " + new Vector3(10, 10, 0));
-        //        if (PlantPreviewWorldPos != new Vector3(10f, 10f, 0f))// if planting place is available
-        //        {
-        //            selectingCard.OnPlanted();
-        //            Instantiate(selectingCard.Seed.seedInstance, PlantPreviewWorldPos, Quaternion.identity);
-        //            SunNum -= selectingCard.Seed.costSun;
-        //            currentState = GMState.Ilde;
-        //            plantSelecting.SetActive(false);
-        //            plantPreview.SetActive(false);
-        //        }
-        //        else ToIdleState();
-        //    }
+        plantSelecting.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane);
+        plantPreview.transform.position = Camera.main.WorldToScreenPoint(GetPlantPreviewWorldPosition());
 
-        //    if (Input.GetMouseButtonDown(1))
-        //    {
-        //        ToIdleState();
-        //    }
-        //}
-        //else if (currentState == GMState.Ilde)
-        //{
-        //    if (Input.GetKeyDown(KeyCode.Mouse0))
-        //    {
-        //        LayerMask sunMask = 1 << 8;
-        //        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition),
-        //            Vector3.back, Mathf.Infinity, sunMask);
-        //        if (hit)
-        //        {
-        //            StartCoroutine(hit.transform.GetComponent<Sun>().BeCollected());
-        //        }
-        //    }
-        //}
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            LayerMask sunMask = 1 << 8;
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition),
+                Vector3.back, Mathf.Infinity, sunMask);
+            if (hit)
+            {
+                StartCoroutine(hit.transform.GetComponent<Sun>().BeCollected());
+            }
+
+            if (!selectingCard)
+            {
+                List<RaycastResult> results = new();
+                raycaster.Raycast(new(eventSystem) { position = Input.mousePosition }, results);
+                foreach (RaycastResult result in results)// 循环事实上只会遍历到一个值
+                {
+                    selectingCard = result.gameObject.GetComponent<Card>();
+                    if (selectingCard.IsReady)
+                    {
+                        selectingCard.OnSelected();
+                        plantSelecting.SetActive(true);
+                        plantPreview.SetActive(true);
+                        plantSelecting.GetComponent<Image>().sprite = selectingCard.plantImage.sprite;
+                        plantPreview.GetComponent<Image>().sprite = selectingCard.plantImage.sprite;
+                    }
+                    else
+                        selectingCard = null;
+                }
+            }
+            else if (selectingCard)
+            {
+                if (PlantPreviewWorldPos == new Vector3(10f, 10f, 0f))// 距离种植区过远，Preview已经被隐藏
+                {
+                    selectingCard.OnCancelPlanting();
+                    allowedClickCard = true;
+                    selectingCard = null;
+                    plantSelecting.SetActive(false);
+                    plantPreview.SetActive(false);
+                }
+                else
+                {
+                    selectingCard.OnPlanted();
+                    Instantiate(selectingCard.Seed.seedInstance, PlantPreviewWorldPos, Quaternion.identity);
+                    SunNum -= selectingCard.Seed.costSun;
+                    allowedClickCard = true;
+                    selectingCard = null;
+                    plantSelecting.SetActive(false);
+                    plantPreview.SetActive(false);
+                }
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            if (selectingCard)
+            {
+                selectingCard.OnCancelPlanting();
+                plantSelecting.SetActive(!plantSelecting.activeSelf);
+                plantPreview.SetActive(!plantPreview.activeSelf);
+                selectingCard = null;
+                allowedClickCard = true;
+            }
+        }
     }
 
-    public void ToSelectingPlantState(Sprite plantSprite, Card selectingCard)
+    public void SelectingAPlant(Sprite plantSprite, Card selectingCard)
     {
-        Debug.Log(!plantSelecting.activeSelf);
-        currentState = GMState.SelectingPlant;
         this.selectingCard = selectingCard;
         plantSelecting.SetActive(!plantSelecting.activeSelf);
         plantSelecting.GetComponent<Image>().sprite = plantSprite;
         plantPreview.SetActive(!plantPreview.activeSelf);
         plantPreview.GetComponent<Image>().sprite = plantSprite;
+
+        allowedClickCard = false;
     }
 
     /// <summary>
@@ -187,13 +214,6 @@ public class GameManager : MonoBehaviour
         else return new(10, 10);
     }
 
-    void ToIdleState()
-    {
-        currentState = GMState.Ilde;
-        plantSelecting.SetActive(false);
-        plantPreview.SetActive(false);
-        selectingCard = null;
-    }
     IEnumerator ThrowSun()
     {
         float throwSunBasicCD = 10f;
@@ -211,5 +231,4 @@ public class GameManager : MonoBehaviour
                 Random.Range(throwSunBasicCD - throwSunRandomCD, throwSunBasicCD + throwSunRandomCD));
         }
     }
-
 }
