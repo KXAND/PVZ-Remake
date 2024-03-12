@@ -5,6 +5,8 @@ using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Unity.VisualScripting;
+using Zombie;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class GameManager : MonoBehaviour
     readonly List<Card> cards = new();
     public Transform plantGridParent;
     public bool allowedClickCard = true;
-    public Card selectingCard;
+    Card selectingCard;
 
     [Header("Planting")]
     GraphicRaycaster raycaster;
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour
     private int sunNum = 0;
     public Sun sun;
     public TextMeshProUGUI sunNumText;
-    public UnityEvent<int> OnSunChanged;
+    [HideInInspector] public UnityEvent<int> OnSunChanged;
     public Vector3 SunIconPosition => Camera.main.ScreenToWorldPoint(SunIcon.position);
     public int SunNum
     {
@@ -50,6 +52,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
 
     public static GameManager Instance { get; private set; }
 
@@ -96,6 +99,8 @@ public class GameManager : MonoBehaviour
         cards[1].Seed = Resources.Load<Seed>("Seeds/PeaShooter");
 
         SunNum = 50;
+
+        ZombiesPools.Instance.GetFromPool("NormalZombie");
     }
 
     // Update is called once per frame

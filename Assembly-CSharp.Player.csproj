@@ -90,6 +90,7 @@
     <Compile Include="Assets\Net Assets\Scripts\GameManagement\Level3Controller.cs" />
     <Compile Include="Assets\Net Assets\Scripts\GameManagement\GameManagement.cs" />
     <Compile Include="Assets\Scripts\MainMenuSelector.cs" />
+    <Compile Include="Assets\Scripts\ZombiesPools.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Sun\SkySun.cs" />
     <Compile Include="Assets\Scripts\Projects\ProjectPea.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\UIManagement.cs" />
@@ -138,7 +139,6 @@
     <Compile Include="Assets\Net Assets\Scripts\UI\Dialog\DialogLevel3.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Zombies\BoneZombie.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Zombies\ConeZombie.cs" />
-    <Compile Include="Assets\Scripts\ZombiesSpawner.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Zombies\NormalZombie.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\Caption.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\MiaoMiao.cs" />

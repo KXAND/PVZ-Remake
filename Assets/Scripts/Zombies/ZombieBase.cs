@@ -77,7 +77,7 @@ namespace Zombie
         // 如果不是特殊子弹例如玉米粒或火豌豆，则是僵尸已知的splat音效
         public void TakeDamage(float damage, bool isBoom = false, AudioClip hitSound = null)
         {
-            SoundPlay(hitSound?
+            SoundPlay(hitSound ?
                 hitSound :
                 soundPack.hitSounds[Random.Range(0, soundPack.hitSounds.Length)]);
             if (health <= 0) return;
@@ -104,5 +104,12 @@ namespace Zombie
             audioSource.clip = clip;
             audioSource.Play();
         }
+
+        public ZombieBase Clone()
+        {
+            return Instantiate(this);
+        }
     }
+
+
 }

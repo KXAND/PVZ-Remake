@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.U2D;
 namespace Zombie
 {
     public class ZombieState_Walk : IState
@@ -27,7 +28,7 @@ namespace Zombie
         {
             zombie.animator.SetBool("isWalking", false);
             zombie.rb.velocity = Vector2.zero;
-            zombie.StopCoroutine(coroutine);
+            if (coroutine != null) zombie.StopCoroutine(coroutine);
             return;
         }
 

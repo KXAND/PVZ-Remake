@@ -1185,6 +1185,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 862534433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &994007460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 994007462}
+  - component: {fileID: 994007461}
+  m_Layer: 0
+  m_Name: Zombies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &994007461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994007460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98ee384a361d282438ecbe8a6e00c6ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombiePoolInfos:
+  - poolName: NormalZombie
+    quantity: 20
+    prefab: {fileID: 7951867687822794779, guid: c064b2dd605c695408c37b5fad67e76c, type: 3}
+--- !u!4 &994007462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994007460}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.8660056, y: -0.110000014, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &999929118
 GameObject:
   m_ObjectHideFlags: 0
@@ -2066,6 +2114,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 339156629}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1595183808 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8319191443512748509, guid: c064b2dd605c695408c37b5fad67e76c, type: 3}
+  m_PrefabInstance: {fileID: 498164164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a19da939d11b14aae9c6086f251adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1597580419
 GameObject:
   m_ObjectHideFlags: 0
@@ -2173,17 +2232,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card: {fileID: 7467671338426868003, guid: 7fd26ab5fc3f47c46ae64622552bf175, type: 3}
   seedBank: {fileID: 730682036}
-  sun: {fileID: 6766414576316410383, guid: 6d3116c37d887694a84058da6d22dc6b, type: 3}
-  sunNumText: {fileID: 1292197534}
   plantGridParent: {fileID: 1645552248}
+  allowedClickCard: 1
+  selectingCard: {fileID: 0}
   plantSelecting: {fileID: 2083666368}
   plantPreview: {fileID: 1060527390}
-  allowedClickCard: 1
   SunIcon: {fileID: 581023771}
-  selectingCard: {fileID: 0}
+  sun: {fileID: 6766414576316410383, guid: 6d3116c37d887694a84058da6d22dc6b, type: 3}
+  sunNumText: {fileID: 1292197534}
   OnSunChanged:
     m_PersistentCalls:
       m_Calls: []
+  zombie: {fileID: 1595183808}
 --- !u!1 &1619010892
 GameObject:
   m_ObjectHideFlags: 0
@@ -3152,3 +3212,4 @@ SceneRoots:
   - {fileID: 2032446563}
   - {fileID: 1340793195}
   - {fileID: 1664216259}
+  - {fileID: 994007462}
