@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Net Assets\Scripts\PlantBullets\LeafKnife.cs" />
+    <Compile Include="Assets\Scripts\Zombies\ZombieFactory.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\TorchWood\WarmPlantRegion.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\Dialog\DialogLevel0.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\MultiImagePlant.cs" />
@@ -90,8 +91,8 @@
     <Compile Include="Assets\Net Assets\Scripts\GameManagement\Level3Controller.cs" />
     <Compile Include="Assets\Net Assets\Scripts\GameManagement\GameManagement.cs" />
     <Compile Include="Assets\Scripts\MainMenuSelector.cs" />
-    <Compile Include="Assets\Scripts\ZombiesPools.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Sun\SkySun.cs" />
+    <Compile Include="Assets\Scripts\Zombies\ZombieArmored.cs" />
     <Compile Include="Assets\Scripts\Projects\ProjectPea.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\UIManagement.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\Plant.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Assets\Net Assets\Scripts\Planting\PlantGrid.cs" />
     <Compile Include="Assets\Net Assets\Scripts\PlantBullets\FirePea.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\BGMusicControl.cs" />
+    <Compile Include="Assets\Scripts\PlantingManager.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\Card.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Planting\Shovel.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Plants\Squash\Squash.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="Assets\Net Assets\Scripts\UI\SpeechBubble.cs" />
     <Compile Include="Assets\Net Assets\Scripts\PlantBullets\ParasiticSeed.cs" />
     <Compile Include="Assets\Scripts\IState.cs" />
+    <Compile Include="Assets\Scripts\Zombies\ZombiesPools.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\Dialog\DialogLevel1.cs" />
     <Compile Include="Assets\Scripts\HealthComp.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\SoundPack.cs" />
@@ -138,6 +141,7 @@
     <Compile Include="Assets\Net Assets\Scripts\Plants\Squash\SquashDetectRegion.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\Dialog\DialogLevel3.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Zombies\BoneZombie.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObjects\ZombieAmors.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Zombies\ConeZombie.cs" />
     <Compile Include="Assets\Net Assets\Scripts\Zombies\NormalZombie.cs" />
     <Compile Include="Assets\Net Assets\Scripts\UI\Caption.cs" />

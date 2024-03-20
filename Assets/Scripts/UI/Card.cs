@@ -33,6 +33,13 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler/*, 
             isReadyAtStart = seed.isReadyAtStart;
             plantName.text = seed.name;
             plantImage.sprite = seed.seedSprite;
+
+            if (!isReadyAtStart)
+            {
+                cardMask1.gameObject.SetActive(true); 
+                cardMask2.gameObject.SetActive(true);
+                StartCoroutine(ColdDown());
+            }
         }
     }
     public bool IsReady => haveEnoughSun && (!isColdingDown);
@@ -63,23 +70,16 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler/*, 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (GameManager.Instance.allowedClickCard == true)
-        {
-            nameBackground.SetActive(true);
-        }
+        nameBackground.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (GameManager.Instance.allowedClickCard == true)
-        {
-            nameBackground.SetActive(false);
-        }
+        nameBackground.SetActive(false);
     }
 
     public void OnPlanted()
     {
-
         StartCoroutine(ColdDown());
     }
 

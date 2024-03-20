@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform seedBank;
     readonly List<Card> cards = new();
     public Transform plantGridParent;
-    public bool allowedClickCard = true;
     Card selectingCard;
 
     [Header("Planting")]
@@ -23,7 +22,7 @@ public class GameManager : MonoBehaviour
     EventSystem eventSystem;
     public GameObject plantSelecting;
     public GameObject plantPreview;
-    public Vector2[][] plantGrids;
+    public Transform[][] plantGrids;
     Vector3 PlantPreviewWorldPos => Camera.main.ScreenToWorldPoint(plantPreview.transform.position);
     Vector3 PlantSelectingWorldPos => Camera.main.ScreenToWorldPoint(plantSelecting.transform.position);
 
@@ -68,19 +67,21 @@ public class GameManager : MonoBehaviour
         }
 
 
-        plantGrids = new Vector2[plantGridParent.childCount][];
+        plantGrids = new Transform[plantGridParent.childCount][];
         for (int i = 0; i < plantGridParent.childCount; i++)
         {
             var row = plantGridParent.GetChild(i);
-            plantGrids[i] = new Vector2[row.childCount];
+            plantGrids[i] = new Transform[row.childCount];
             for (int j = 0; j < row.childCount; j++)
             {
-                plantGrids[i][j] = row.GetChild(j).position;
+                plantGrids[i][j] = row.GetChild(j);
             }
         }
 
         eventSystem = FindObjectOfType<EventSystem>();
         raycaster = FindObjectOfType<Canvas>().GetComponent<GraphicRaycaster>();
+        //PlantingManager.Instance.Init();
+
     }
 
     void Start()
@@ -90,24 +91,25 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             Card item = Instantiate(card, seedBank);
-            Debug.Log(item.name);
-
             cards.Add(item);
-
         }
         cards[0].Seed = Resources.Load<Seed>("Seeds/SunFlower");
         cards[1].Seed = Resources.Load<Seed>("Seeds/PeaShooter");
 
-        SunNum = 50;
+        SunNum = 500;
 
+        //var a = ZombiesPools.Instance.GetFromPool("NormalZombie");
         ZombiesPools.Instance.GetFromPool("NormalZombie");
+
+        //var zombieF = new ZombieFactory();
+        //zombieF.Produce(a);
     }
 
     // Update is called once per frame
     void Update()
     {
         plantSelecting.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane);
-        plantPreview.transform.position = Camera.main.WorldToScreenPoint(GetPlantPreviewWorldPosition());
+        plantPreview.transform.position = Camera.main.WorldToScreenPoint(PlantingManager.Instance.GetPlantPreviewWorldPosition(PlantSelectingWorldPos));
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -126,7 +128,7 @@ public class GameManager : MonoBehaviour
                 foreach (RaycastResult result in results)// 循环事实上只会遍历到一个值
                 {
                     selectingCard = result.gameObject.GetComponent<Card>();
-                    if (selectingCard.IsReady)
+                    if (selectingCard && selectingCard.IsReady)
                     {
                         selectingCard.OnSelected();
                         plantSelecting.SetActive(true);
@@ -142,81 +144,29 @@ public class GameManager : MonoBehaviour
             {
                 if (PlantPreviewWorldPos == new Vector3(10f, 10f, 0f))// 距离种植区过远，Preview已经被隐藏
                 {
-                    selectingCard.OnCancelPlanting();
-                    allowedClickCard = true;
-                    selectingCard = null;
-                    plantSelecting.SetActive(false);
-                    plantPreview.SetActive(false);
+                    CanclePlanting();
                 }
                 else
                 {
-                    selectingCard.OnPlanted();
-                    Instantiate(selectingCard.Seed.seedInstance, PlantPreviewWorldPos, Quaternion.identity);
+                    PlantingManager.Instance.Plant(selectingCard);
                     SunNum -= selectingCard.Seed.costSun;
-                    allowedClickCard = true;
-                    selectingCard = null;
                     plantSelecting.SetActive(false);
                     plantPreview.SetActive(false);
+                    selectingCard = null;
                 }
             }
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            if (selectingCard)
-            {
-                selectingCard.OnCancelPlanting();
-                plantSelecting.SetActive(!plantSelecting.activeSelf);
-                plantPreview.SetActive(!plantPreview.activeSelf);
-                selectingCard = null;
-                allowedClickCard = true;
-            }
+            CanclePlanting();
         }
     }
-
-    public void SelectingAPlant(Sprite plantSprite, Card selectingCard)
+    void CanclePlanting()
     {
-        this.selectingCard = selectingCard;
-        plantSelecting.SetActive(!plantSelecting.activeSelf);
-        plantSelecting.GetComponent<Image>().sprite = plantSprite;
-        plantPreview.SetActive(!plantPreview.activeSelf);
-        plantPreview.GetComponent<Image>().sprite = plantSprite;
-
-        allowedClickCard = false;
-    }
-
-    /// <summary>
-    /// 返回 plantPreview 的坐标，含不可见时坐标
-    /// </summary>
-    /// <returns></returns>
-    Vector3 GetPlantPreviewWorldPosition()
-    {
-        int y = 0;
-        int x = 0;
-        float distance = float.MaxValue;
-
-        for (int i = 0; i < plantGrids.Length; i++)//row
-        {
-            var newDistance = Vector2.Distance(PlantSelectingWorldPos, plantGrids[i][0]);
-
-            if (newDistance > distance) break;
-
-            distance = newDistance;
-            y = i;
-        }
-
-        distance = float.MaxValue;
-        for (int i = 0; i < plantGrids[y].Length; i++)
-        {
-            var newDistance = Vector2.Distance(PlantSelectingWorldPos, plantGrids[y][i]);
-
-            if (newDistance > distance) break;
-
-            distance = newDistance;
-            x = i;
-        }
-        if (Vector2.Distance(PlantSelectingWorldPos, plantGrids[y][x]) < 1)
-            return plantGrids[y][x];
-        else return new(10, 10);
+        if (selectingCard) selectingCard.OnCancelPlanting();
+        plantSelecting.SetActive(false);
+        plantPreview.SetActive(false);
+        selectingCard = null;
     }
 
     IEnumerator ThrowSun()

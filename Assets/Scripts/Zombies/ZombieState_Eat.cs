@@ -46,7 +46,7 @@ namespace Zombie
                 // 播放第一个 AudioClip
                 AudioClip clip = chomps[Random.Range(0, chomps.Length - 1)];
                 zombie.SoundPlay(clip);
-                beEatingPlant?.TakeDamage(zombie.attack);
+                if(beEatingPlant) beEatingPlant.TakeDamage(zombie.attack);
                 yield return new WaitForSeconds(clip.length);
             }
         }

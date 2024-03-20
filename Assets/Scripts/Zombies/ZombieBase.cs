@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Zombie
 {
-    enum ZombieState
+    public enum ZombieState
     {
         Idle,
         Eat,
@@ -12,22 +12,27 @@ namespace Zombie
         Die
     }
 
-    public class ZombieBase : MonoBehaviour
+    public class ZombieBase : MonoBehaviour, IProduct
     {
-        public float speed;
-        public Rigidbody2D rb;
-        public AudioSource audioSource;
-        public Animator animator;
+        [HideInInspector] public float speed = 0f;
+        [HideInInspector] public Rigidbody2D rb;
+        [HideInInspector] public AudioSource audioSource;
+        [HideInInspector] public Animator animator;
         public float attack = 10f;
         public bool isDead = false;
 
         Dictionary<ZombieState, IState> states = new();
         [SerializeField] ZombieState currentState;
-        [SerializeField] float health;
-        [SerializeField] SoundPack soundPack;
+        [SerializeField] protected float health;
+        [SerializeField] protected SoundPack soundPack;
 
         // Start is called before the first frame update
-        void Start()
+        protected void Start()
+        {
+            Init();
+
+        }
+        protected virtual void Init()
         {
             audioSource = GetComponent<AudioSource>();
             animator = GetComponent<Animator>();
@@ -42,14 +47,13 @@ namespace Zombie
 
             health = 100;
         }
-
         private void Update()
         {
             states[currentState]?.OnState();
 
         }
 
-        void TransitionState(ZombieState newState)
+        protected void TransitionState(ZombieState newState)
         {
             states[currentState]?.OnLeave();
             currentState = newState;
@@ -75,17 +79,21 @@ namespace Zombie
         }
 
         // 如果不是特殊子弹例如玉米粒或火豌豆，则是僵尸已知的splat音效
-        public void TakeDamage(float damage, bool isBoom = false, AudioClip hitSound = null)
+        public virtual void TakeDamage(float damage, AudioClip hitSound = null)
         {
+            //Boomdamage可以考虑另写一个函数，这是因为Boom伤害有如下特点
+            // 1. 没有击中音效
+            // 2. 在失去头颅后可以变黑，倒地后会直接消失
+            // 3. 对除伽刚特尔以外的大部分僵尸都是秒杀的
             SoundPlay(hitSound ?
                 hitSound :
                 soundPack.hitSounds[Random.Range(0, soundPack.hitSounds.Length)]);
-            if (health <= 0) return;
+            if (health <= 0) return;// 死去的僵尸可能还在承伤
             health -= damage;
 
             if (health <= 0)
             {
-                if (!isBoom) TransitionState(ZombieState.Die);
+                TransitionState(ZombieState.Die);
             }
         }
 
@@ -99,17 +107,15 @@ namespace Zombie
             rb.velocity = Vector2.zero;
         }
 
-        public void SoundPlay(AudioClip clip)
+        public virtual void SoundPlay(AudioClip clip)
         {
             audioSource.clip = clip;
             audioSource.Play();
         }
 
-        public ZombieBase Clone()
+        public IProduct Produce()
         {
             return Instantiate(this);
         }
     }
-
-
 }

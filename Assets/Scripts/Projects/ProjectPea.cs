@@ -26,11 +26,7 @@ public class ProjectsPea : MonoBehaviour
             Instantiate(peaSplat, transform.position, Quaternion.identity);
             int index = Random.Range(0, splatSprites.Length);
             peaSplat.sprite = splatSprites[index];
-            ParticleSystem particleSystem = peaSplat.GetComponentInChildren<ParticleSystem>();
-            particleSystem.Play();
-            Debug.Log(particleSystem.gameObject.name);
             Destroy(gameObject);
-
         }
     }
 }

@@ -15,6 +15,6 @@ public class HealthComp : MonoBehaviour
     {
         health -= damage;
         if (health < 0)
-        { Destroy(this.gameObject); }
+        { Destroy(gameObject); }
     }
 }

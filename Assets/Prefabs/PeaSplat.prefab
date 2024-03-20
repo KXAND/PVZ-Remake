@@ -145,9 +145,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -136.056
       objectReference: {fileID: 0}
+    - target: {fileID: 6265711268284003611, guid: f0fa66d8056cdf646b00527e9043e4e2, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265711268284003611, guid: f0fa66d8056cdf646b00527e9043e4e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265711268284003611, guid: f0fa66d8056cdf646b00527e9043e4e2, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1025452903
+      objectReference: {fileID: 0}
     - target: {fileID: 7805928147435132650, guid: f0fa66d8056cdf646b00527e9043e4e2, type: 3}
       propertyPath: m_Name
       value: PeaParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8544062539003160431, guid: f0fa66d8056cdf646b00527e9043e4e2, type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

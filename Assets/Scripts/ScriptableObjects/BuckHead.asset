@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab183faf3ab10484caf060c800713142, type: 3}
+  m_Name: BuckHead
+  m_EditorClassIdentifier: 
+  armorHealth: 200
+  hitSound:
+  - {fileID: 8300000, guid: 5d9659a627807684fab5225134778769, type: 3}
+  - {fileID: 8300000, guid: 6926c764c4f5918479a9cd5ddff191e6, type: 3}
+  armorFine: {fileID: 21300000, guid: e5e0507a84a81bf488a65b483b224732, type: 3}
+  armorSlightBroken: {fileID: 21300000, guid: 4128698a889b6324a803f28fae4ec2d2, type: 3}
+  armorAlmostBroken: {fileID: 21300000, guid: 51bc0e0d3d6e2cc46b522b03ecad5e05, type: 3}
