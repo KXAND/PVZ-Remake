@@ -8,6 +8,7 @@ namespace Zombie
         ZombieBase zombie;
         AudioClip limbPopSound;
         float t;
+        bool isRealeased = false;
 
 
         GameObject head;
@@ -21,18 +22,17 @@ namespace Zombie
         public void OnEnter()
         {
             t = 0;
+            isRealeased = false;
             zombie.animator.SetTrigger("isDead");
-            zombie.transform.DetachChildren();
-            zombie.GetComponent<Collider2D>().enabled = false;
-            //zombie.SoundPlay(limbPopSound);
-            
+            //zombie.transform.DetachChildren();
+
             head.GetComponent<AudioSource>().clip = limbPopSound;
-            //head.GetComponent<AudioSource>().Play();
             head.SetActive(true);
         }
 
         public void OnLeave()
         {
+            head.SetActive(false);
             return;
         }
 
@@ -41,8 +41,11 @@ namespace Zombie
             t += Time.deltaTime;
             if (t > 3f)
             {
-                GameObject.Destroy(head);
-                GameObject.Destroy(zombie.gameObject);
+                if (!isRealeased)
+                {
+                    ZombiesPools.Instance.Release(zombie.gameObject, zombie.type);
+                    isRealeased = true;
+                }
             }
         }
     }

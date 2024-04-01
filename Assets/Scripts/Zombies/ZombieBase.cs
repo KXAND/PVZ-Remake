@@ -9,7 +9,8 @@ namespace Zombie
         Idle,
         Eat,
         Walk,
-        Die
+        Die,
+        Empty
     }
 
     public class ZombieBase : MonoBehaviour, IProduct
@@ -28,8 +29,9 @@ namespace Zombie
         [SerializeField] ZombieState currentState;
         [SerializeField] protected float health;
         [SerializeField] protected SoundPack soundPack;
+        public ZombieType type = ZombieType.Zombie;
 
-        public virtual void Init(ZombieState defaultState)
+        protected virtual void Awake()
         {
             audioSource = GetComponent<AudioSource>();
             animator = GetComponent<Animator>();
@@ -39,24 +41,24 @@ namespace Zombie
             states.Add(ZombieState.Walk, new ZombieState_Walk(this, audioSource, soundPack.groanSounds));
             states.Add(ZombieState.Eat, new ZombieState_Eat(this, soundPack.chompSounds));
             states.Add(ZombieState.Die, new ZombieState_Die(this, transform.GetChild(0).gameObject, soundPack.limbsPopSound));
-
+        }
+        public virtual void Init(ZombieState defaultState)
+        {
             TransitionState(defaultState);
-
             health = 100;
         }
+
         private void Update()
         {
             states[currentState]?.OnState();
-
         }
 
-        protected void TransitionState(ZombieState newState)
+        protected void TransitionState(ZombieState newState = ZombieState.Empty)
         {
-            states[currentState]?.OnLeave();
+            states[currentState].OnLeave();
             currentState = newState;
             states[newState].OnEnter();
         }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Plant"))
@@ -85,7 +87,7 @@ namespace Zombie
             SoundPlay(hitSound ?
                 hitSound :
                 soundPack.hitSounds[Random.Range(0, soundPack.hitSounds.Length)]);
-            if (health <= 0) return;// 死去的僵尸可能还在承伤
+            if (health <= 0) return;// 已经stateDie了，但是死去的僵尸可能还在承伤
             health -= damage;
 
             if (health <= 0)

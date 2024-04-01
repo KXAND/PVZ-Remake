@@ -25,6 +25,7 @@ namespace Zombie
             this.armor = armor;
             armor.sprite = armorFine;
             isExist = true;
+            armor.enabled = true;
         }
     }
 
@@ -38,7 +39,7 @@ namespace Zombie
             set
             {
                 armorHealth = value;
-                if (armorHealth < 0) { GameObject.Destroy(armor); isExist = false; }
+                if (armorHealth < 0) { armor.enabled = false; isExist = false; }
                 else if (armorHealth < 30) { armor.sprite = armorAlmostBroken; }
                 else if (armorHealth < 70) { armor.sprite = armorSlightBroken; }
             }
@@ -56,10 +57,7 @@ namespace Zombie
         ZombieArmor armor;
 
         public override float ThreatWeight => 3;
-        private void Start()
-        {
-            Debug.Log(armorConfig.ToString());
-        }
+
         public override void Init(ZombieState defaultState)
         {
             base.Init(defaultState);

@@ -20,9 +20,11 @@ public class LevelManager : MonoBehaviour
 
     float progressDelta = 1;
     float progressTimes = 0;
-
+    float targetProgress;
     public bool isGameEnding = false;
 
+    UnityEvent ProgressChanged = new();
+    UnityEvent ProgressDone = new();
     float TargetThreat => Progress * 1 + 4;
     public float Progress
     {
@@ -42,21 +44,15 @@ public class LevelManager : MonoBehaviour
             _threat = value;
             if (_threat < _threatLowHold && isGameEnding == false)
             {
-                SpawnZombies();
-                Debug.Log("threat" + _threat);
-                Progress += progressDelta * progressTimes;
-                progressTimes = 4;
                 _threatLowHold = TargetThreat * 0.75f;// 上一波威胁度不足，生成新波次。同时，只有在生成新波次时，下界会被更新
                 _threatHighHold = Mathf.Clamp(TargetThreat + 1, TargetThreat * 1.25f, 30);
+                SpawnZombies();
+                Progress += progressDelta * progressTimes;
+                progressTimes = 4;
             }
         }
     }
 
-    UnityEvent ProgressChanged;
-    UnityEvent ProgressDone;
-    ZombiesPools pools;
-
-    float targetProgress;
     public static LevelManager Instance { get; private set; }
     private void Awake()
     {
@@ -65,15 +61,12 @@ public class LevelManager : MonoBehaviour
     }
     public void Init(LevelConfig config)
     {
-        pools = ZombiesPools.Instance;
-        pools.Init(config);
+        ZombiesPools.Instance.Init(config);
         _progress = 0.0f;
         targetProgress = 10.0f;
-        //ProgressDone.AddListener(() => { Instance.isGameEnding = true; });
+        ProgressDone.AddListener(OnProgressDone);
         StartCoroutine(GrowProgress());
-        //Threat = 0;
-        //SpawnZombies();
-
+        Threat = 0;
 
 
         // Spawn Idle Zombie
@@ -86,17 +79,19 @@ public class LevelManager : MonoBehaviour
         int IdleNum = Random.Range(10 - 3, 10 + 3);
         foreach (var zombie in config.zombieList)
         {
-            //if(zombie.zombieType== ZombieType.) 
-            var rate = (float)zombie.quantity / (float)cnt;
             for (int i = 0; i < zombie.quantity * IdleNum / cnt + 1; i++)
             {
-                var instance = pools.GetFromPool(zombie.zombieType, transform, Zombie.ZombieState.Idle);
+                var instance = ZombiesPools.Instance.GetFromPool(zombie.zombieType, transform, Zombie.ZombieState.Idle);
                 instance.transform.SetParent(transform);
                 float xDis = 1f;
                 float yDis = 2.5f;
                 instance.transform.position = new(Random.Range(transform.position.x - xDis, transform.position.x + xDis), Random.Range(transform.position.y - yDis, transform.position.y + yDis), 0f);
             }
         }
+    }
+    void OnProgressDone()
+    {
+        isGameEnding = true;
     }
     void SpawnZombies()
     {
@@ -105,8 +100,7 @@ public class LevelManager : MonoBehaviour
             var type = (ZombieType)Random.Range(0, 3);
             if (GlobalSettings.Threatness[type] + _threat > _threatHighHold)
                 continue;
-            //Debug.Log(Progress + " " + _threat + TargetThreat);
-            var zombie = pools.GetFromPool((ZombieType)type, transform);
+            var zombie = ZombiesPools.Instance.GetFromPool(type, transform);
             zombie.transform.SetParent(transform);
             zombie.transform.position = PlantingManager.Instance.GetRandomRowRightGridPosition() + new Vector3(2f, 0f, 0f);
 
@@ -117,14 +111,17 @@ public class LevelManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.1f);
-            Debug.Log(Progress);
+            yield return new WaitForSeconds(2f);
+            Debug.Log("progress" + Progress);
             if (progressTimes > 0)
             {
                 Progress += progressDelta;
                 progressTimes--;
-                Debug.Log(Progress + " " + Threat);
-                if (progressTimes == 0) Threat = 0;
+                if (progressTimes == 0)
+                {
+                    yield return new WaitForSeconds(5);
+                    Threat = 0;
+                }
             }
         }
     }

@@ -13,7 +13,9 @@ namespace Plant
         GameObject bullet;
         AudioClip[] throwSoundClips = null;
         PlantBase plant;
-        
+
+        GameObject bullets;
+
         float throwCD = 2f;
         public PlantState_Attack(PlantBase plant, Animator animator)
         {
@@ -22,6 +24,7 @@ namespace Plant
             bullet = plant.bullet;
             throwSoundClips = plant.throwSoundClips;
             throwSound = plant.throwSound;
+            bullets = GameObject.Find("Bullets");
         }
         public void OnEnter()
         {
@@ -65,7 +68,7 @@ namespace Plant
                     Debug.LogError("ThrowSoundList is empty");
                 }
 
-                Object.Instantiate(bullet, plant.transform.position, plant.transform.rotation);
+                Object.Instantiate(bullet, plant.transform.position, plant.transform.rotation, parent: bullets.transform);
                 yield return new WaitForSeconds(throwCD);
             }
         }

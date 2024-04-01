@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ProjectsPea : MonoBehaviour
+public class ProjectPea : MonoBehaviour
 {
     readonly float speed = 0.1f;
+    bool canCollide = true;
 
-    [SerializeField] float damage = 10f;    
-    [SerializeField] SpriteRenderer peaSplat = null;
+    [SerializeField] float damage = 10f;
     [SerializeField] Sprite[] splatSprites;
 
     void FixedUpdate()
@@ -18,15 +18,22 @@ public class ProjectsPea : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Zombie"))
+        if (collision.CompareTag("Zombie") && canCollide)
         {
             Zombie.ZombieBase zombie = collision.GetComponent<Zombie.ZombieBase>();
             if (zombie) zombie.TakeDamage(damage);
 
-            Instantiate(peaSplat, transform.position, Quaternion.identity);
             int index = Random.Range(0, splatSprites.Length);
-            peaSplat.sprite = splatSprites[index];
-            Destroy(gameObject);
+            GetComponent<SpriteRenderer>().sprite = splatSprites[index];
+            transform.GetChild(1).gameObject.SetActive(true);
+            canCollide = false;
+            StartCoroutine(WaitAndDestroy());
         }
+    }
+
+    IEnumerator WaitAndDestroy()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Destroy(gameObject);
     }
 }

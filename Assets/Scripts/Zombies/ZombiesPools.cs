@@ -26,20 +26,23 @@ namespace Zombie
                         zombie.transform.SetParent(transform, worldPositionStays: true);
                         return zombie;
                     },
-                    defaultCapacity: pool.quantity / 2
+                    defaultCapacity: 10
                     ));
             }
         }
-        public GameObject GetFromPool(ZombieType zombieType, Transform parent= null,ZombieState state= ZombieState.Walk)
+        public GameObject GetFromPool(ZombieType zombieType, Transform parent = null, ZombieState state = ZombieState.Walk)
         {
             var t = pools[zombieType].Get();
-            t.transform.SetParent(parent);
+            t.transform.parent = parent;
+            t.SetActive(true);
             t.GetComponent<ZombieBase>().Init(state);
             return t;
         }
         public void Release(GameObject gameObject, ZombieType poolName)
         {
             pools[poolName].Release(gameObject);
+            gameObject.GetComponent<ZombieBase>();
+            gameObject.SetActive(false);
 
         }
     }
