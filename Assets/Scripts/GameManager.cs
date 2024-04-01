@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     public Sun sun;
     public TextMeshProUGUI sunNumText;
     [HideInInspector] public UnityEvent<int> OnSunChanged;
+
+    public LevelConfig config;
     public Vector3 SunIconPosition => Camera.main.ScreenToWorldPoint(SunIcon.position);
     public int SunNum
     {
@@ -99,8 +101,8 @@ public class GameManager : MonoBehaviour
         SunNum = 500;
 
         //var a = ZombiesPools.Instance.GetFromPool("NormalZombie");
-        ZombiesPools.Instance.GetFromPool("NormalZombie");
-
+        PlantingManager.Instance.Init();
+        LevelManager.Instance.Init(config);
         //var zombieF = new ZombieFactory();
         //zombieF.Produce(a);
     }

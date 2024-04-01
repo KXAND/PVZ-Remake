@@ -9,47 +9,38 @@ namespace Zombie
     {
         public static ZombiesPools Instance { get; private set; }
 
-        public ZombiePoolInfo[] zombiePoolList;
-        public Dictionary<string, ObjectPool<GameObject>> pools = new();
-
-        private void Start()
+        public Dictionary<ZombieType, ObjectPool<GameObject>> pools = new();
+        private void Awake()
         {
             if (Instance == null) Instance = this;
             else Destroy(this);
-
-            foreach (var info in zombiePoolList)
+        }
+        public void Init(LevelConfig config)
+        {
+            foreach (var pool in config.zombieList)
             {
-                pools.Add(info.poolName, new ObjectPool<GameObject>(
+                pools.Add(pool.zombieType, new ObjectPool<GameObject>(
                     createFunc: () =>
                     {
-                        var zombie = Instantiate(info.prefab);
+                        var zombie = Instantiate(Resources.LoadAsync<GameObject>("Zombies/" + pool.zombieType.ToString()).asset) as GameObject;
                         zombie.transform.SetParent(transform, worldPositionStays: true);
                         return zombie;
                     },
-                    defaultCapacity: info.quantity
+                    defaultCapacity: pool.quantity / 2
                     ));
             }
-
         }
-        public GameObject GetFromPool(string poolName)
+        public GameObject GetFromPool(ZombieType zombieType, Transform parent= null,ZombieState state= ZombieState.Walk)
         {
-            GameObject t = pools[poolName].Get();
-
+            var t = pools[zombieType].Get();
+            t.transform.SetParent(parent);
+            t.GetComponent<ZombieBase>().Init(state);
             return t;
         }
-        public void Release(GameObject gameObject, string poolName)
+        public void Release(GameObject gameObject, ZombieType poolName)
         {
             pools[poolName].Release(gameObject);
 
         }
-    }
-
-    // 或许应该使用Scriptable...
-    [System.Serializable]
-    public struct ZombiePoolInfo
-    {
-        public string poolName;
-        public int quantity;
-        public GameObject prefab;
     }
 }

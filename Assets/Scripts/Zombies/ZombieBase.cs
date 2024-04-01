@@ -14,7 +14,10 @@ namespace Zombie
 
     public class ZombieBase : MonoBehaviour, IProduct
     {
-        [HideInInspector] public float speed = 0f;
+        public virtual float ThreatWeight => 1;// ÍþÐ²¶È 
+
+        //[HideInInspector]
+        public float speed = 1f;
         [HideInInspector] public Rigidbody2D rb;
         [HideInInspector] public AudioSource audioSource;
         [HideInInspector] public Animator animator;
@@ -26,13 +29,7 @@ namespace Zombie
         [SerializeField] protected float health;
         [SerializeField] protected SoundPack soundPack;
 
-        // Start is called before the first frame update
-        protected void Start()
-        {
-            Init();
-
-        }
-        protected virtual void Init()
+        public virtual void Init(ZombieState defaultState)
         {
             audioSource = GetComponent<AudioSource>();
             animator = GetComponent<Animator>();
@@ -43,7 +40,7 @@ namespace Zombie
             states.Add(ZombieState.Eat, new ZombieState_Eat(this, soundPack.chompSounds));
             states.Add(ZombieState.Die, new ZombieState_Die(this, transform.GetChild(0).gameObject, soundPack.limbsPopSound));
 
-            TransitionState(ZombieState.Walk);
+            TransitionState(defaultState);
 
             health = 100;
         }

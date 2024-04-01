@@ -14,11 +14,12 @@ namespace Zombie
 
         public void OnEnter()
         {
-            if (Random.Range(0, 2) == 0)
-                zombie.animator.SetBool("isIdle", true);
-            else
+            zombie.animator.Play("Zombie_Idle");
+            //if (Random.Range(0, 2) == 0)
+                //zombie.animator.SetBool("isIdle", true);
+            //else
                 //zombie.animator.SetBool("isSwag", true);
-                zombie.animator.SetBool("isIdle", true);
+                //zombie.animator.SetBool("isIdle", true);
 
         }
 

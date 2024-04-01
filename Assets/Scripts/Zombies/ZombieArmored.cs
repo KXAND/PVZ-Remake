@@ -52,12 +52,17 @@ namespace Zombie
 
     public class ZombieArmored : ZombieBase
     {
-        [SerializeField] ZombieArmorConfig armorConfig;
+        public ZombieArmorConfig armorConfig;
         ZombieArmor armor;
 
-        protected override void Init()
+        public override float ThreatWeight => 3;
+        private void Start()
         {
-            base.Init();
+            Debug.Log(armorConfig.ToString());
+        }
+        public override void Init(ZombieState defaultState)
+        {
+            base.Init(defaultState);
             armor = new ArmorHead(armorConfig, transform.GetChild(1).GetComponent<SpriteRenderer>());
         }
 

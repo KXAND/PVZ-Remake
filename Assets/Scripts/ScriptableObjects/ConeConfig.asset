@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab183faf3ab10484caf060c800713142, type: 3}
-  m_Name: ConeHead
+  m_Name: ConeConfig
   m_EditorClassIdentifier: 
-  armorHealth: 100
+  armorHealth: 0
   hitSound:
   - {fileID: 8300000, guid: 7f816ee3fffb9614080ba80a377b3352, type: 3}
   - {fileID: 8300000, guid: 205fdc58e2b13e64ebb27c5b27621d81, type: 3}

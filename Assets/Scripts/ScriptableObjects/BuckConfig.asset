@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab183faf3ab10484caf060c800713142, type: 3}
-  m_Name: BuckHead
+  m_Name: BuckConfig
   m_EditorClassIdentifier: 
-  armorHealth: 200
+  armorHealth: 0
   hitSound:
   - {fileID: 8300000, guid: 5d9659a627807684fab5225134778769, type: 3}
   - {fileID: 8300000, guid: 6926c764c4f5918479a9cd5ddff191e6, type: 3}

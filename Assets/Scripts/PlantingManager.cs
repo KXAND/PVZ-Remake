@@ -5,18 +5,19 @@ using UnityEngine;
 public class PlantingManager : MonoBehaviour
 {
     public Transform PlantsParent;
-
-    public Transform[][] Grids;
-
+    public Transform[][] Grids = null;
     Transform PlantPreview;
 
-
+    int RowNum => Grids.GetLength(0);
+    int RowLength => Grids[0].Length;
     public static PlantingManager Instance { get; private set; }
-    public void Start()
+    private void Awake()
     {
         if (Instance == null) { Instance = this; }
         else { Destroy(Instance); }
-
+    }
+    public void Init()
+    {
         Grids = new Transform[PlantsParent.childCount][];
         for (int i = 0; i < PlantsParent.childCount; i++)
         {
@@ -72,9 +73,15 @@ public class PlantingManager : MonoBehaviour
         }
     }
 
+    public Vector3 GetRandomRowRightGridPosition()
+    {
+        return Grids[Random.Range(0, RowNum)][RowLength - 1].position;
+        //return Vector3.zero;
+    }
+
     public void Plant(Card PlantingCard)
     {
         PlantingCard.OnPlanted();
-        Instantiate(PlantingCard.Seed.seedInstance,parent: PlantPreview);
+        Instantiate(PlantingCard.Seed.seedInstance, parent: PlantPreview);
     }
 }
